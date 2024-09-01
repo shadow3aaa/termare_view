@@ -23,10 +23,6 @@ class TermarePainter extends CustomPainter {
 
     for (int row = 0; row < controller.row; row++) {
       for (int column = 0; column < controller.column; column++) {
-        if (offsetCache[row] == null) {
-          offsetCache[row] = [];
-          offsetCache[row].length = controller.column;
-        }
         offsetCache[row][column] = Offset(
           column * controller.theme!.characterWidth!,
           row * controller.theme!.characterHeight!,

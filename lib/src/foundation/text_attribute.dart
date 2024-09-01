@@ -251,9 +251,6 @@ class TextAttribute {
   late Color? Function(TermareController? controller) getBackgroundColor;
 
   Color? _getForegroundColor(TermareController? controller) {
-    if (_foreground == null) {
-      return controller!.theme!.defaultFontColor;
-    }
     if (_foregroundExtended) {
       return getExtendedColor(int.tryParse(_foreground)!, controller);
     }
@@ -298,9 +295,6 @@ class TextAttribute {
   }
 
   Color? _getBackgroundColor(TermareController? controller) {
-    if (_background == null) {
-      return null;
-    }
     if (_backgroundExtended) {
       return getExtendedColor(int.tryParse(_background)!, controller);
       // return

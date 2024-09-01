@@ -35,9 +35,7 @@ class Buffer {
     if (other is! Buffer) {
       return false;
     }
-    if (other is Buffer) {
-      return other.hashCode == hashCode;
-    }
+    return other.hashCode == hashCode;
     return false;
   }
 
@@ -78,7 +76,7 @@ class Buffer {
     for (int row = endRow; row > 0; row--) {
       final List<Character?> line = cache[row];
       // 这个 line == null 不能删！！！，用非空模式运行这个库会出现问题的
-      if (line == null || line.isEmpty) {
+      if (line.isEmpty) {
         continue;
       }
       // print(line);
@@ -123,10 +121,6 @@ class Buffer {
     if (row > length - 1) {
       // 防止在row上越界
       cache.length = row + 1;
-      cache[row] = [];
-    }
-    if (cache[row] == null) {
-      // 有可能存在[null,null]，这个index能取到值，但是为null
       cache[row] = [];
     }
     if (column > cache[row].length - 1) {
@@ -195,7 +189,7 @@ class Buffer {
       return true;
     }
     final List<Character?> line = cache[row];
-    if (line == null || line.isEmpty) {
+    if (line.isEmpty) {
       return true;
     }
     line.length = controller.column;
@@ -214,7 +208,7 @@ class Buffer {
     }
     final List<Character?> line = cache[row];
     // 有问题，非空模式运行的时候，可能还是会拿到空
-    if (line == null || line.isEmpty) {
+    if (line.isEmpty) {
       return false;
     }
     if (line.length < controller.column) {
@@ -236,9 +230,6 @@ class Buffer {
     }
     if (row + _position > length - 1) {
       cache.length = row + _position + 1;
-      cache[row + _position] = [];
-    }
-    if (cache[row + _position] == null) {
       cache[row + _position] = [];
     }
     return cache[row + _position];

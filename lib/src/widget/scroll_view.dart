@@ -68,9 +68,9 @@ class _ScrollViewTermState extends State<ScrollViewTerm>
           onPanUpdate = false;
           widget.controller!.needBuild();
           final double velocity =
-              1.0 / (0.050 * WidgetsBinding.instance!.window.devicePixelRatio);
+              1.0 / (0.050 * WidgetsBinding.instance.window.devicePixelRatio);
           final double distance =
-              1.0 / WidgetsBinding.instance!.window.devicePixelRatio;
+              1.0 / WidgetsBinding.instance.window.devicePixelRatio;
           final Tolerance tolerance = Tolerance(
             velocity: velocity, // logical pixels per second
             distance: distance, // logical pixels

@@ -54,9 +54,7 @@ class TermareController with Observable {
     if (other is! TermareController) {
       return false;
     }
-    if (other is TermareController) {
-      return other.hashCode == hashCode;
-    }
+    return other.hashCode == hashCode;
     return false;
   }
 

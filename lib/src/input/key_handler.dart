@@ -10,7 +10,7 @@ class KeyHandler {
   static const int KEYMOD_SHIFT = 0x20000000;
   static const int KEYMOD_NUM_LOCK = 0x10000000;
 
-  static final Map<String, int> TERMCAP_TO_KEYCODE = Map<String, int>();
+  static final Map<String, int> TERMCAP_TO_KEYCODE = <String, int>{};
 
   // static {
   //     // terminfo: http://pubs.opengroup.org/onlinepubs/7990989799/xcurses/terminfo.html
@@ -83,7 +83,7 @@ class KeyHandler {
     bool cursorKeysApplication,
     bool keypadApplication,
   ) {
-    int? keyCodeAndMod = TERMCAP_TO_KEYCODE[termcap];
+    final int? keyCodeAndMod = TERMCAP_TO_KEYCODE[termcap];
     if (keyCodeAndMod == null) return null;
     int keyCode = keyCodeAndMod;
     int keyMod = 0;
@@ -144,12 +144,12 @@ class KeyHandler {
         // Note that KEYCODE_HOME is handled by the system and never delivered to applications.
         // On a Logitech k810 keyboard KEYCODE_MOVE_HOME is sent by FN+LeftArrow.
         return (keyMode == 0)
-            ? (cursorApp ? "\x1bOH" : "\x1b[H")
-            : transformForModifiers("\x1b[1", keyMode, 'H');
+            ? (cursorApp ? '\x1bOH' : '\x1b[H')
+            : transformForModifiers('\x1b[1', keyMode, 'H');
       case KEYCODE_MOVE_END:
         return (keyMode == 0)
-            ? (cursorApp ? "\x1bOF" : "\x1b[F")
-            : transformForModifiers("\x1b[1", keyMode, 'F');
+            ? (cursorApp ? '\x1bOF' : '\x1b[F')
+            : transformForModifiers('\x1b[1', keyMode, 'F');
 
       // An xterm can send function keys F1 to F4 in two modes: vt100 compatible or
       // not. Because Vim may not know what the xterm is sending, both types of keys
@@ -163,65 +163,65 @@ class KeyHandler {
       // <End> t_@7 <Esc>[4~ <xEnd> <Esc>OF *<xEnd>-xterm*
       case KEYCODE_F1:
         return (keyMode == 0)
-            ? "\x1bOP"
-            : transformForModifiers("\x1b[1", keyMode, 'P');
+            ? '\x1bOP'
+            : transformForModifiers('\x1b[1', keyMode, 'P');
       case KEYCODE_F2:
         return (keyMode == 0)
-            ? "\x1bOQ"
-            : transformForModifiers("\x1b[1", keyMode, 'Q');
+            ? '\x1bOQ'
+            : transformForModifiers('\x1b[1', keyMode, 'Q');
       case KEYCODE_F3:
         return (keyMode == 0)
-            ? "\x1bOR"
-            : transformForModifiers("\x1b[1", keyMode, 'R');
+            ? '\x1bOR'
+            : transformForModifiers('\x1b[1', keyMode, 'R');
       case KEYCODE_F4:
         return (keyMode == 0)
-            ? "\x1bOS"
-            : transformForModifiers("\x1b[1", keyMode, 'S');
+            ? '\x1bOS'
+            : transformForModifiers('\x1b[1', keyMode, 'S');
       case KEYCODE_F5:
-        return transformForModifiers("\x1b[15", keyMode, '~');
+        return transformForModifiers('\x1b[15', keyMode, '~');
       case KEYCODE_F6:
-        return transformForModifiers("\x1b[17", keyMode, '~');
+        return transformForModifiers('\x1b[17', keyMode, '~');
       case KEYCODE_F7:
-        return transformForModifiers("\x1b[18", keyMode, '~');
+        return transformForModifiers('\x1b[18', keyMode, '~');
       case KEYCODE_F8:
-        return transformForModifiers("\x1b[19", keyMode, '~');
+        return transformForModifiers('\x1b[19', keyMode, '~');
       case KEYCODE_F9:
-        return transformForModifiers("\x1b[20", keyMode, '~');
+        return transformForModifiers('\x1b[20', keyMode, '~');
       case KEYCODE_F10:
-        return transformForModifiers("\x1b[21", keyMode, '~');
+        return transformForModifiers('\x1b[21', keyMode, '~');
       case KEYCODE_F11:
-        return transformForModifiers("\x1b[23", keyMode, '~');
+        return transformForModifiers('\x1b[23', keyMode, '~');
       case KEYCODE_F12:
-        return transformForModifiers("\x1b[24", keyMode, '~');
+        return transformForModifiers('\x1b[24', keyMode, '~');
 
       case KEYCODE_SYSRQ:
-        return "\x1b[32~"; // Sys Request / Print
+        return '\x1b[32~'; // Sys Request / Print
       // Is this Scroll lock? case Cancel: return "\x1b[33~";
       case KEYCODE_BREAK:
-        return "\x1b[34~"; // Pause/Break
+        return '\x1b[34~'; // Pause/Break
 
       case KEYCODE_ESCAPE:
       case KEYCODE_BACK:
-        return "\x1b";
+        return '\x1b';
 
       case KEYCODE_INSERT:
-        return transformForModifiers("\x1b[2", keyMode, '~');
+        return transformForModifiers('\x1b[2', keyMode, '~');
       case KEYCODE_FORWARD_DEL:
-        return transformForModifiers("\x1b[3", keyMode, '~');
+        return transformForModifiers('\x1b[3', keyMode, '~');
 
       case KEYCODE_PAGE_UP:
-        return "\x1b[5~";
+        return '\x1b[5~';
       case KEYCODE_PAGE_DOWN:
-        return "\x1b[6~";
+        return '\x1b[6~';
       case KEYCODE_DEL:
-        String prefix = ((keyMode & KEYMOD_ALT) == 0) ? "" : "\x1b";
+        final String prefix = ((keyMode & KEYMOD_ALT) == 0) ? '' : '\x1b';
         // Just do what xterm and gnome-terminal does:
         // print(((keyMode & KEYMOD_CTRL) == 0));
         // print("\u007F".codeUnits);
-        return prefix + (((keyMode & KEYMOD_CTRL) == 0) ? "\u007F" : "\u0008");
+        return prefix + (((keyMode & KEYMOD_CTRL) == 0) ? '\u007F' : '\u0008');
       case KEYCODE_NUM_LOCK:
         if (keypadApplication) {
-          return "\x1bOP";
+          return '\x1bOP';
         } else {
           return null;
         }
@@ -244,140 +244,140 @@ class KeyHandler {
             : '\n';
       case KEYCODE_NUMPAD_MULTIPLY:
         return keypadApplication
-            ? transformForModifiers("\x1bO", keyMode, 'j')
-            : "*";
+            ? transformForModifiers('\x1bO', keyMode, 'j')
+            : '*';
       case KEYCODE_NUMPAD_ADD:
         return keypadApplication
-            ? transformForModifiers("\x1bO", keyMode, 'k')
-            : "+";
+            ? transformForModifiers('\x1bO', keyMode, 'k')
+            : '+';
       case KEYCODE_NUMPAD_COMMA:
-        return ",";
+        return ',';
       case KEYCODE_NUMPAD_DOT:
         if (numLockOn) {
-          return keypadApplication ? "\x1bOn" : ".";
+          return keypadApplication ? '\x1bOn' : '.';
         } else {
           // DELETE
-          return transformForModifiers("\x1b[3", keyMode, '~');
+          return transformForModifiers('\x1b[3', keyMode, '~');
         }
         break;
       case KEYCODE_NUMPAD_SUBTRACT:
         return keypadApplication
-            ? transformForModifiers("\x1bO", keyMode, 'm')
-            : "-";
+            ? transformForModifiers('\x1bO', keyMode, 'm')
+            : '-';
       case KEYCODE_NUMPAD_DIVIDE:
         return keypadApplication
-            ? transformForModifiers("\x1bO", keyMode, 'o')
-            : "/";
+            ? transformForModifiers('\x1bO', keyMode, 'o')
+            : '/';
       case KEYCODE_NUMPAD_0:
         if (numLockOn) {
           return keypadApplication
-              ? transformForModifiers("\x1bO", keyMode, 'p')
-              : "0";
+              ? transformForModifiers('\x1bO', keyMode, 'p')
+              : '0';
         } else {
           // INSERT
-          return transformForModifiers("\x1b[2", keyMode, '~');
+          return transformForModifiers('\x1b[2', keyMode, '~');
         }
         break;
       case KEYCODE_NUMPAD_1:
         if (numLockOn) {
           return keypadApplication
-              ? transformForModifiers("\x1bO", keyMode, 'q')
-              : "1";
+              ? transformForModifiers('\x1bO', keyMode, 'q')
+              : '1';
         } else {
           // END
           return (keyMode == 0)
-              ? (cursorApp ? "\x1bOF" : "\x1b[F")
-              : transformForModifiers("\x1b[1", keyMode, 'F');
+              ? (cursorApp ? '\x1bOF' : '\x1b[F')
+              : transformForModifiers('\x1b[1', keyMode, 'F');
         }
         break;
       case KEYCODE_NUMPAD_2:
         if (numLockOn) {
           return keypadApplication
-              ? transformForModifiers("\x1bO", keyMode, 'r')
-              : "2";
+              ? transformForModifiers('\x1bO', keyMode, 'r')
+              : '2';
         } else {
           // DOWN
           return (keyMode == 0)
-              ? (cursorApp ? "\x1bOB" : "\x1b[B")
-              : transformForModifiers("\x1b[1", keyMode, 'B');
+              ? (cursorApp ? '\x1bOB' : '\x1b[B')
+              : transformForModifiers('\x1b[1', keyMode, 'B');
         }
         break;
       case KEYCODE_NUMPAD_3:
         if (numLockOn) {
           return keypadApplication
-              ? transformForModifiers("\x1bO", keyMode, 's')
-              : "3";
+              ? transformForModifiers('\x1bO', keyMode, 's')
+              : '3';
         } else {
           // PGDN
-          return "\x1b[6~";
+          return '\x1b[6~';
         }
         break;
       case KEYCODE_NUMPAD_4:
         if (numLockOn) {
           return keypadApplication
-              ? transformForModifiers("\x1bO", keyMode, 't')
-              : "4";
+              ? transformForModifiers('\x1bO', keyMode, 't')
+              : '4';
         } else {
           // LEFT
           return (keyMode == 0)
-              ? (cursorApp ? "\x1bOD" : "\x1b[D")
-              : transformForModifiers("\x1b[1", keyMode, 'D');
+              ? (cursorApp ? '\x1bOD' : '\x1b[D')
+              : transformForModifiers('\x1b[1', keyMode, 'D');
         }
         break;
       case KEYCODE_NUMPAD_5:
         return keypadApplication
-            ? transformForModifiers("\x1bO", keyMode, 'u')
-            : "5";
+            ? transformForModifiers('\x1bO', keyMode, 'u')
+            : '5';
       case KEYCODE_NUMPAD_6:
         if (numLockOn) {
           return keypadApplication
-              ? transformForModifiers("\x1bO", keyMode, 'v')
-              : "6";
+              ? transformForModifiers('\x1bO', keyMode, 'v')
+              : '6';
         } else {
           // RIGHT
           return (keyMode == 0)
-              ? (cursorApp ? "\x1bOC" : "\x1b[C")
-              : transformForModifiers("\x1b[1", keyMode, 'C');
+              ? (cursorApp ? '\x1bOC' : '\x1b[C')
+              : transformForModifiers('\x1b[1', keyMode, 'C');
         }
         break;
       case KEYCODE_NUMPAD_7:
         if (numLockOn) {
           return keypadApplication
-              ? transformForModifiers("\x1bO", keyMode, 'w')
-              : "7";
+              ? transformForModifiers('\x1bO', keyMode, 'w')
+              : '7';
         } else {
           // HOME
           return (keyMode == 0)
-              ? (cursorApp ? "\x1bOH" : "\x1b[H")
-              : transformForModifiers("\x1b[1", keyMode, 'H');
+              ? (cursorApp ? '\x1bOH' : '\x1b[H')
+              : transformForModifiers('\x1b[1', keyMode, 'H');
         }
         break;
       case KEYCODE_NUMPAD_8:
         if (numLockOn) {
           return keypadApplication
-              ? transformForModifiers("\x1bO", keyMode, 'x')
-              : "8";
+              ? transformForModifiers('\x1bO', keyMode, 'x')
+              : '8';
         } else {
           // UP
           return (keyMode == 0)
-              ? (cursorApp ? "\x1bOA" : "\x1b[A")
-              : transformForModifiers("\x1b[1", keyMode, 'A');
+              ? (cursorApp ? '\x1bOA' : '\x1b[A')
+              : transformForModifiers('\x1b[1', keyMode, 'A');
         }
         break;
       case KEYCODE_NUMPAD_9:
         if (numLockOn) {
           return keypadApplication
-              ? transformForModifiers("\x1bO", keyMode, 'y')
-              : "9";
+              ? transformForModifiers('\x1bO', keyMode, 'y')
+              : '9';
         } else {
           // PGUP
-          return "\x1b[5~";
+          return '\x1b[5~';
         }
         break;
       case KEYCODE_NUMPAD_EQUALS:
         return keypadApplication
-            ? transformForModifiers("\x1bO", keyMode, 'X')
-            : "=";
+            ? transformForModifiers('\x1bO', keyMode, 'X')
+            : '=';
       default:
         return null;
     }

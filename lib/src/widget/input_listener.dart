@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 // copy form xterm.dart
-typedef KeyStrokeHandler = void Function(RawKeyEvent);
+typedef KeyStrokeHandler = void Function(KeyEvent);
 typedef InputHandler = TextEditingValue? Function(TextEditingValue);
 typedef ActionHandler = void Function(TextInputAction);
 typedef FocusHandler = void Function(bool);
@@ -68,7 +68,7 @@ class InputListenerState extends State<InputListener>
 
     if (!_didAutoFocus && widget.autofocus) {
       _didAutoFocus = true;
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           FocusScope.of(context).autofocus(widget.focusNode);
         }
@@ -111,9 +111,9 @@ class InputListenerState extends State<InputListener>
     _focusAttachment!.reparent();
 
     if (widget.listenKeyStroke) {
-      return RawKeyboardListener(
+      return KeyboardListener(
         focusNode: widget.focusNode,
-        onKey: widget.onKeyStroke,
+        onKeyEvent: widget.onKeyStroke,
         autofocus: widget.autofocus,
         child: widget.child,
       );
@@ -162,7 +162,7 @@ class InputListenerState extends State<InputListener>
     } else {
       const TextInputConfiguration config = TextInputConfiguration();
       final client = TerminalTextInputClient(onInput, onAction);
-      _conn = TextInput.attach(client, config);
+      _conn = TextInput.attach(client as TextInputClient, config);
 
       _conn!.show();
 
@@ -197,7 +197,7 @@ class InputListenerState extends State<InputListener>
   }
 }
 
-class TerminalTextInputClient extends TextInputClient {
+class TerminalTextInputClient with TextInputClient {
   TerminalTextInputClient(this.onInput, this.onAction);
 
   final void Function(TextEditingValue) onInput;

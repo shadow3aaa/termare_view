@@ -17,7 +17,7 @@ void main() {
   //   print('*');
   //   // print(i);
   // }
-  var data = utf8.decode([
+  final data = utf8.decode([
     37,
     56,
     55,
@@ -48,5 +48,5 @@ void main() {
     10,
     48
   ]);
-  print('$data');
+  print(data);
 }

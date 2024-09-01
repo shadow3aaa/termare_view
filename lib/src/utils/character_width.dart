@@ -470,7 +470,7 @@ mixin CharacterWidth {
     int bot = 0;
     int top = table.length - 1; // (int)(size / sizeof(struct interval) - 1);
     while (top >= bot) {
-      int mid = (bot + top) ~/ 2;
+      final int mid = (bot + top) ~/ 2;
       if (table[mid][1] < c) {
         bot = mid + 1;
       } else if (table[mid][0] > c) {
@@ -482,7 +482,7 @@ mixin CharacterWidth {
     return false;
   }
 
-  /** Return the terminal display width of a code point: 0, 1 || 2. */
+  /// Return the terminal display width of a code point: 0, 1 || 2.
   static int width(int ucs) {
     if (ucs == 0 ||
         ucs == 0x034F ||

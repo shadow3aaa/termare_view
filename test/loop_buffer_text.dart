@@ -55,7 +55,7 @@ class LoopBuffer {
 }
 
 void main() {
-  LoopBuffer buffer = LoopBuffer(10);
+  final LoopBuffer buffer = LoopBuffer(10);
   print(buffer.front);
   print(buffer.rear);
   for (int i = 0; i < 9; i++) {

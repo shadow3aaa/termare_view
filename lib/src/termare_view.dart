@@ -109,11 +109,11 @@ class _TermareViewState extends State<TermareView> {
         }
         widget.onAction?.call(action);
       },
-      onKeyStroke: (RawKeyEvent key) {
+      onKeyStroke: (KeyEvent key) {
         Log.i(key);
         // 26键盘之外的按键按下的时候
         final int keyId = key.logicalKey.keyId;
-        if (key is RawKeyDownEvent) {
+        if (key is KeyDownEvent) {
           final String? input = KeyHandler.getCode(
             keyId,
             0,

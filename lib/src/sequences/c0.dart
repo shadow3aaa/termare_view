@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:termare_view/src/termare_controller.dart';
-import 'package:termare_view/src/utils/signale/signale.dart';
 
 //
 bool Function(List<int>, List<int>) eq = const ListEquality<int>().equals;

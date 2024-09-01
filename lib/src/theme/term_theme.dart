@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 // 在某一字体大小时，终端每一个格子的宽度

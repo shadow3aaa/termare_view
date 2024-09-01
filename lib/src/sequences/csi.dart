@@ -171,7 +171,7 @@ void cursorPosition(TermareController controller, String sequence) {
   // 如果设置了原始模式，则将光标置于滚动边距内的绝对位置。
   // 如果未设置ORIGIN模式，请将光标置于视口内的绝对位置。
   // 请注意，坐标是从1开始的，因此左上角的位置从开始1 ; 1。
-  /// TODO ORIGIN模式
+  // TODOORIGIN模式
   if (sequence.isEmpty) {
     sequence = '1;1';
   }
@@ -349,7 +349,7 @@ void deleteCharacter(TermareController controller, String sequence) {
       controller.currentPointer.y,
       column,
     );
-    Log.i('删除 ${column} 字符 ${character?.content} ');
+    Log.i('删除 $column 字符 ${character?.content} ');
     buffer.write(
       controller.currentPointer.y,
       column,
@@ -361,7 +361,7 @@ void deleteCharacter(TermareController controller, String sequence) {
       controller.currentPointer.y,
       column,
     );
-    Log.i('移动 ${column} 字符 ${character?.content} ');
+    Log.i('移动 $column 字符 ${character?.content} ');
     buffer.write(
       controller.currentPointer.y,
       column - ps,
@@ -569,7 +569,7 @@ void setCursorStyle(TermareController controller, String sequence) {
 void setTopandBottomMargin(TermareController controller, String sequence) {
   /// CSI Ps ; Ps r
   /// DECSTBM	Set Top and Bottom Margin
-  /// TODO 22;0;0t[1;29r 一起的时候报错
+  // TODO22;0;0t[1;29r 一起的时候报错
   if (sequence.isEmpty) {
     sequence = '0;${controller.row}';
   }
